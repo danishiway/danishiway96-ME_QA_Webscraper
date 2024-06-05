@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin/main" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="bin/main" path="src/main/resources">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="bin/test" path="src/test/java">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="bin/test" path="src/test/resources">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/Downloads/slf4j-simple-2.1.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/Downloads/slf4j-api-2.1.0-alpha1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/Downloads/jackson-core-2.14.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/Downloads/poi-5.2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-api/4.18.1/9c3b460c2c8878fcf966cd0e3e253759f59ae266/selenium-api-4.18.1.jar" sourcepath="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-api/4.18.1/eb4891f2e93ce9a33ad0c76d771e03691a6eb2eb/selenium-api-4.18.1-sources.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/io.github.bonigarcia/webdrivermanager/5.7.0/e61b8c534853f21d8a1545c19e4eccc8b26e538f/webdrivermanager-5.7.0.jar" sourcepath="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/io.github.bonigarcia/webdrivermanager/5.7.0/29e493d041d273780b7e69a927815e5ac5aa6bf3/webdrivermanager-5.7.0-sources.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.10.3/aae92628b5447fa25af79871ca98668da6edd439/jackson-databind-2.10.3.jar" sourcepath="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.10.3/db734f2f42a95d2668b9f9de58d25cfc064e6e4a/jackson-databind-2.10.3-sources.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-chrome-driver/4.13.0/490603c4c79f938ffaf30058a675d850d9717265/selenium-chrome-driver-4.13.0.jar" sourcepath="C:/Users/TALHA ABDUL KHADER/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-chrome-driver/4.13.0/21f8c02dd0188545082146740f527e8423f0bb6/selenium-chrome-driver-4.13.0-sources.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin/default"/>
+</classpath>
