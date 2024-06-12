@@ -1,37 +1,39 @@
 package _WebScrpaer;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 public class TestCases {
 	public static WebDriver driver;
     private ArrayList<HashMap<String, Object>> dataList;
     private static final String OUTPUT_DIR = "output/";
     private static final ObjectMapper mapper = new ObjectMapper();
-    @BeforeMethod
+    @BeforeClass
     public void setUp() {
-        WebDriverManager.chromedriver().timeout(30).setup();
-        driver = (WebDriver) new ChromeDriver();
-        driver.get("https://www.scrapethissite.com/pages/");
-        driver.manage().window().maximize();
-        dataList = new ArrayList<>();
+    	WebDriverManager.chromedriver().setup();
+    	driver = (WebDriver) new ChromeDriver();
+
+    	    driver.get("https://www.scrapethissite.com/pages/");
+    	    driver.manage().window().maximize();
+    	    dataList = new ArrayList<>();
     }
 
-    @AfterClass
+    @AfterClass 
     public void endTest() {
         driver.quit();
     }
@@ -60,11 +62,11 @@ public class TestCases {
     }
 
     private void scrapeOscarData() {
-        List<WebElement> years = driver.findElements(By.xpath("//div[@class='col-md-12 text-center']/a"));
+        List<WebElement> years = ((WebDriver) driver).findElements(By.xpath("//div[@class='col-md-12 text-center']/a"));
         for (WebElement year : years) {
             year.click();            
 
-            List<WebElement> films = driver.findElements(By.xpath("//table[@class='table']/tbody/tr/"));
+            List<WebElement> films = ((WebDriver) driver).findElements(By.xpath("//table[@class='table']/tbody/tr/"));
             for (int i = 0; i < Math.min(5, films.size()); i++) {
                 WebElement film = films.get(i);
                 String title = film.findElement(By.xpath(".//td[1]")).getText();
@@ -85,19 +87,19 @@ public class TestCases {
 	}
 
 	private String verifySiteName(String path) {
-        WebElement container = driver.findElement(By.xpath(path));
+        WebElement container = ((WebDriver) driver).findElement(By.xpath(path));
         return container.getText();
     }
 
     private void selectSite(String path) {
-        WebElement container = driver.findElement(By.xpath(path));
+        WebElement container = ((WebDriver) driver).findElement(By.xpath(path));
         container.click();
     }
 
     private void scrapeHockeyData(int numOfPages, double percentage) {
     	dataList=new ArrayList<>();
         for (int i = 0; i < numOfPages; i++) {
-            List<WebElement> rows = driver.findElements(By.xpath("//table[@class='table']/tbody/tr"));
+            List<WebElement> rows = ((WebDriver) driver).findElements(By.xpath("//table[@class='table']/tbody/tr"));
             for (WebElement row : rows) {
                 String teamName = row.findElement(By.xpath(".//td[1]")).getText();
                 int year = Integer.parseInt(row.findElement(By.xpath(".//td[2]")).getText());
@@ -114,7 +116,7 @@ public class TestCases {
                 }
             }
             // Go to the next page
-            WebElement nextPageButton = driver.findElement(By.xpath("//a[@aria-label='Next']"));
+            WebElement nextPageButton = ((WebDriver) driver).findElement(By.xpath("//a[@aria-label='Next']"));
             nextPageButton.click();
             }
         }   
