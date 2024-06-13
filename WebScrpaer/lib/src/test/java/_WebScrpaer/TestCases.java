@@ -46,8 +46,8 @@ public class TestCases {
         assert siteName.contains("Hockey Teams: Forms, Searching and Pagination") :
                 "SiteName does not match expected value";
         selectSite("//a[@href='/pages/forms/']");
-        scrapeHockeyData(4, 0.40);
-        saveToJson("hockey-team-data");
+        ArrayList<HashMap<String, Object>> dataList=   scrapeHockeyData(4, 0.40);
+        saveToJson("hockey-team-data", dataList);
         System.out.println("End Test case: testCase01");
     }
     @Test
@@ -58,12 +58,12 @@ public class TestCases {
         assert siteName.contains("Oscar Winning Films: AJAX and Javascript") :
                 "SiteName does not match expected value";
         selectSite("//a[@href='/pages/ajax-javascript/']");
-        scrapeOscarData();
-        saveToJson("oscar-winner-data");
+        ArrayList<HashMap<String, Object>> dataList= scrapeOscarData();
+        saveToJson("oscar-winner-data",dataList);
         System.out.println("End Test case: testCase02");
     }
 
-    private void scrapeOscarData() {
+    private ArrayList<HashMap<String, Object>>scrapeOscarData() {
     	dataList=new ArrayList<>();
         List<WebElement> years = ((WebDriver) driver).findElements(By.xpath("//*[@id='oscars']/div/div[4]/div/a"));
         for (WebElement year : years) {
@@ -88,7 +88,7 @@ public class TestCases {
                 System.out.println("Check point3");
             }
         }
-		
+		return dataList;
 	}
 
 	private String verifySiteName(String path) {
@@ -133,7 +133,7 @@ public class TestCases {
       nextPageButton.click();
   }
     
-  private void saveToJson(String fileName) {
+  private void saveToJson(String fileName,ArrayList<HashMap<String, Object>> dataList) {
 	    try {
 	       
 	        String filePath = "src/test/resources/" + fileName + ".json";
