@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 public class TestCases {
@@ -30,7 +31,7 @@ public class TestCases {
 
     	    driver.get("https://www.scrapethissite.com/pages/");
     	    driver.manage().window().maximize();
-    	    dataList = new ArrayList<>();
+    	    
     }
 
     @AfterClass 
@@ -51,6 +52,7 @@ public class TestCases {
     }
     @Test
     public void testCase02() {
+    	 driver.get("https://www.scrapethissite.com/pages/");
         System.out.println("Start Test case: testCase02");
         String siteName = verifySiteName("//a[@href='/pages/ajax-javascript/']");
         assert siteName.contains("Oscar Winning Films: AJAX and Javascript") :
@@ -62,17 +64,19 @@ public class TestCases {
     }
 
     private void scrapeOscarData() {
-        List<WebElement> years = ((WebDriver) driver).findElements(By.xpath("//div[@class='col-md-12 text-center']/a"));
+    	dataList=new ArrayList<>();
+        List<WebElement> years = ((WebDriver) driver).findElements(By.xpath("//*[@id='oscars']/div/div[4]/div/a"));
         for (WebElement year : years) {
             year.click();            
 
-            List<WebElement> films = ((WebDriver) driver).findElements(By.xpath("//table[@class='table']/tbody/tr/"));
-            for (int i = 0; i < Math.min(5, films.size()); i++) {
-                WebElement film = films.get(i);
-                String title = film.findElement(By.xpath(".//td[1]")).getText();
-                String nomination = film.findElement(By.xpath(".//td[2]")).getText();
-                String awards = film.findElement(By.xpath(".//td[3]")).getText();
-
+            List<WebElement> bestfilms = ((WebDriver) driver).findElements(By.xpath("//*[@id='table-body']/tr/td/i"));
+            for (int i = 0; i < Math.min(5, bestfilms.size()); i++) {
+                WebElement film = bestfilms.get(i);
+                System.out.println("Check point1");
+                String title = film.findElement(By.xpath("//tbody[@id='table-body']/tr/child::td[@class='film-title']")).getText();
+                String nomination = film.findElement(By.xpath(".//tbody[@id='table-body']/tr/child::td[@class='film-nominations']")).getText();
+                String awards = film.findElement(By.xpath("//tbody[@id='table-body']/tr/child::td[@class='film-awards']")).getText();
+                System.out.println("Check point2");
                 HashMap<String, Object> data = new HashMap<>();
                 data.put("Epoch Time of Scrape", Instant.now().getEpochSecond());
                 data.put("Year", year.getText());
@@ -81,6 +85,7 @@ public class TestCases {
                 data.put("Awards", awards);
                 data.put("isWinner", i == 0); 
                 dataList.add(data);
+                System.out.println("Check point3");
             }
         }
 		
@@ -96,15 +101,18 @@ public class TestCases {
         container.click();
     }
 
-    private void scrapeHockeyData(int numOfPages, double percentage) {
+    private ArrayList<HashMap<String,Object>> scrapeHockeyData(int numOfPages, double percentage) {
     	dataList=new ArrayList<>();
         for (int i = 0; i < numOfPages; i++) {
-            List<WebElement> rows = ((WebDriver) driver).findElements(By.xpath("//table[@class='table']/tbody/tr"));
+        	nextPageOnHockeyData(i);
+        	
+            List<WebElement> rows = ((WebDriver) driver).findElements(By.xpath("//table[@class='table']/tbody"));
             for (WebElement row : rows) {
-                String teamName = row.findElement(By.xpath(".//td[1]")).getText();
-                int year = Integer.parseInt(row.findElement(By.xpath(".//td[2]")).getText());
-                double winPercentage = Double.parseDouble(row.findElement(By.xpath(".//td[5]")).getText());
-
+            	
+                String teamName = row.findElement(By.xpath("//table[@class='table']/tbody/tr/th[normalize-space()='Team Name']/following::tr//td[1]")).getText();
+                int year = Integer.parseInt(row.findElement(By.xpath("//table[@class='table']/tbody/tr/th[normalize-space()='Year']/following::tr//td[2]")).getText());
+                double winPercentage = Double.parseDouble(row.findElement(By.xpath("//table[@class='table']/tbody/tr/th[normalize-space()='Win %']/following::tr/td[6]")).getText());
+               
                 // If win percentage is less than 40%, add to dataList
                 if (winPercentage < percentage) {
                     HashMap<String, Object> data = new HashMap<>();
@@ -115,23 +123,36 @@ public class TestCases {
                     dataList.add(data);
                 }
             }
-            // Go to the next page
-            WebElement nextPageButton = ((WebDriver) driver).findElement(By.xpath("//a[@aria-label='Next']"));
-            nextPageButton.click();
+           
             }
+        return dataList;
         }   
+  public static void  nextPageOnHockeyData(int pageNo) {
+	  // Go to the next page
+      WebElement nextPageButton = ((WebDriver) driver).findElement(By.xpath("//a[@aria-label='Next']"));
+      nextPageButton.click();
+  }
     
-    
-    private void saveToJson(String fileNmae) {   
-    	
-    try {
-        File outputFile = new File("src/test/resources/"+ fileNmae+".json");
-        mapper.writeValue(outputFile, dataList);
-        assert outputFile.exists() && outputFile.length() > 0 : "JSON file is missing or empty";
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    }
+  private void saveToJson(String fileName) {
+	    try {
+	       
+	        String filePath = "src/test/resources/" + fileName + ".json";
+	        
+	        
+	        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+	        
+	        mapper.writeValue(new File(filePath), dataList);
+
+	        
+	        File outputFile = new File(filePath);
+	        assert outputFile.exists() && outputFile.length() > 0 : "JSON file is missing or empty";
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 }
 
 
